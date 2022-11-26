@@ -1,0 +1,182 @@
+local Rayfield = loadstring(game:HttpGet('https://raw.githubusercontent.com/shlexware/Rayfield/main/source'))()
+
+local Window = Rayfield:CreateWindow({
+	Name = "TRFR: NBN Script",
+	LoadingTitle = "Booting up.. I made this shit for fun lmao",
+	LoadingSubtitle = "by @NovaNextruis#7939",
+	ConfigurationSaving = {
+		Enabled = false,
+		FolderName = nil, -- Create a custom folder for your hub/game
+		FileName = "ZaddyHub"
+	},
+	Discord = {
+		Enabled = true,
+		Invite = "swpbSptSAU", -- The Discord invite code, do not include discord.gg/
+		RememberJoins = true -- Set this to false to make them join the discord every time they load it up
+	},
+	KeySystem = false, -- Set this to true to use our key system
+})
+
+local Gamer = Window:CreateTab("Game", 4483362458) -- Title, Image
+
+local R_Atmo = Gamer:CreateButton({
+	Name = "Remove Atmosphere",
+	Callback = function()
+		if game:GetService("Lighting"):FindFirstChild("Atmosphere") then
+			game.Lighting.Atmosphere:Destroy()
+			Rayfield:Notify({
+				Title = "NBN | TRFR",
+				Content = "Deleted the Atmosphere, Deleting the atmosphere will make you see better but the fogcolor will never change",
+				Duration = 6.5,
+				Image = 10686489468,
+			})
+		end
+	end,
+})
+
+local C_FogEnd = Gamer:CreateButton({
+	Name = "Clear up Fog",
+	Callback = function()
+		game.Lighting.FogColor = Color3.fromRGB(255, 255, 255)
+		game.Lighting.FogEnd = 2000
+	end,
+})
+
+local T_Headlamp = Gamer:CreateToggle({
+	Name = "Headlamp",
+	CurrentValue = false,
+	Flag = "Toggle1", -- A flag is the identifier for the configuration file, make sure every element has a different flag if you're using configuration saving to ensure no overlaps
+	Callback = function(Value)
+		if Value == true then
+			local Lamp = Instance.new("PointLight")
+			Lamp.Name = "Lampers"
+			Lamp.Parent = game.Players.LocalPlayer.Character.Head
+			Lamp.Range = 35
+			Lamp.Brightness = 2.5
+		else
+			if game.Players.LocalPlayer.Character.Head:FindFirstChild("Lampers") then
+				game.Players.LocalPlayer.Character.Head.Lampers:Destroy()
+			end
+		end
+	end,
+})
+local stats = Instance.new("ScreenGui")
+local T_Stats = Gamer:CreateToggle({
+	Name = "ToggleBars",
+	CurrentValue = false,
+	Flag = "Toggle1", -- A flag is the identifier for the configuration file, make sure every element has a different flag if you're using configuration saving to ensure no overlaps
+	Callback = function(Value)
+		stats.Enabled = Value
+	end,
+})
+
+local NoHoldDuration = coroutine.create(function()
+	while wait(5.05) do
+		for i,v in pairs(game:GetDescendants()) do
+			if v:IsA("ProximityPrompt") then
+				v.HoldDuration = 0
+			end
+		end
+	end
+end)
+
+local N_InstInt = Gamer:CreateToggle({
+	Name = "No Prompt HoldDuration",
+	CurrentValue = false,
+	Flag = "Toggle1", -- A flag is the identifier for the configuration file, make sure every element has a different flag if you're using configuration saving to ensure no overlaps
+	Callback = function(Value)
+		if Value == true then
+			coroutine.resume(NoHoldDuration)
+		else
+			coroutine.yield(NoHoldDuration)
+		end
+	end,
+})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	-- Gui to Lua
+	-- Version: 3.2
+
+	-- Instances:
+
+	local GameTimer = Instance.new("TextLabel")
+	local UICorner = Instance.new("UICorner")
+	local UIAspectRatioConstraint = Instance.new("UIAspectRatioConstraint")
+	local RakeHealth = Instance.new("TextLabel")
+	local UICorner_2 = Instance.new("UICorner")
+	local UIAspectRatioConstraint_2 = Instance.new("UIAspectRatioConstraint")
+
+	--Properties:
+
+	stats.Name = "stats"
+	stats.Parent = game.CoreGui
+	stats.IgnoreGuiInset = true
+	stats.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+
+	GameTimer.Name = "GameTimer"
+	GameTimer.Parent = stats
+	GameTimer.BackgroundColor3 = Color3.fromRGB(57, 57, 57)
+	GameTimer.Position = UDim2.new(0.874556184, 0, 0.0122448765, 0)
+	GameTimer.Size = UDim2.new(0.063558951, 0, 0.0857142806, 0)
+	GameTimer.Font = Enum.Font.SourceSansSemibold
+	GameTimer.Text = "Timer: N/A"
+	GameTimer.TextColor3 = Color3.fromRGB(252, 252, 252)
+	GameTimer.TextScaled = true
+	GameTimer.TextSize = 18.000
+	GameTimer.TextWrapped = true
+
+	UICorner.Parent = GameTimer
+
+	UIAspectRatioConstraint.Parent = GameTimer
+	UIAspectRatioConstraint.AspectRatio = 1.279
+
+	RakeHealth.Name = "RakeHealth"
+	RakeHealth.Parent = stats
+	RakeHealth.BackgroundColor3 = Color3.fromRGB(57, 57, 57)
+	RakeHealth.Position = UDim2.new(0.803550243, 0, 0.0122448765, 0)
+	RakeHealth.Size = UDim2.new(0.063558951, 0, 0.0857142806, 0)
+	RakeHealth.Font = Enum.Font.SourceSansSemibold
+	RakeHealth.Text = "Rake: N/A"
+	RakeHealth.TextColor3 = Color3.fromRGB(252, 252, 252)
+	RakeHealth.TextScaled = true
+	RakeHealth.TextSize = 18.000
+	RakeHealth.TextWrapped = true
+
+	UICorner_2.Parent = RakeHealth
+
+	UIAspectRatioConstraint_2.Parent = RakeHealth
+	UIAspectRatioConstraint_2.AspectRatio = 1.279
+
+	-- Scripts:
+
+	local function GQAZGXO_fake_script() -- GameTimer.LocalScript 
+		local script = Instance.new('LocalScript', GameTimer)
+
+		game:GetService("RunService").RenderStepped:Connect(function()
+			script.Parent.Text = "Timer: "..workspace.Info.Timer.Value
+		end)
+	end
+	coroutine.wrap(GQAZGXO_fake_script)()
+	local function EVTA_fake_script() -- RakeHealth.LocalScript 
+		local script = Instance.new('LocalScript', RakeHealth)
+
+		game:GetService("RunService").RenderStepped:Connect(function()
+			if workspace:FindFirstChild("Rake") then
+				script.Parent.Text = "Rake: "..workspace:FindFirstChild("Rake"):FindFirstChildOfClass("Humanoid").Health
+			end
+		end)
+	end
+	coroutine.wrap(EVTA_fake_script)()
